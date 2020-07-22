@@ -209,3 +209,52 @@ function App() {
 ```
 
 <br><br><br><br>
+
+
+### 07. 조건부 렌더링
+
+조건부 렌더링이란, 특정 조건이 참인지 거짓인지에 따라 다른 것을 보여주는 것
+
+#### 1. 삼항연산자 사용  
+->  true or false 일때, 다른 결과값을 보여줌  
+ ∴ 내용이 달라져야 할 때 사용함!!
+
+```JSX
+function Hello({ color, name, isSpecial }) {
+  return (
+    <div>
+      { isSpecial ? <b>*</b> : null }
+      안녕하세요 {name} 
+    </div>
+  );
+}
+```
+
+**+** JSX에서 null, false, undefined를 출력하면 아무것도 안나옴! but false의 한 값인 0은 숫자 0 출력!!
+
+<br><br>
+
+#### 2. && 연산자 사용  
+-> 단순히 어떤 값을 숨기거나 넣어줄 때는 && 연산자 이용.  
+≈ short-circuit evalution
+
+```JSX
+function Hello({ color, name, isSpecial }) {
+  return (
+    <div>
+      { isSpecial  && <b>*</b> }
+      안녕하세요 {name}
+    </div>
+  );
+}
+```
+
+**+** 컴포넌트로 boolean 값 넣어줄때, 이름만 넘겨주고 값 설정 안할 시 true 값 넘겨준 것과 동일.
+
+```JSX
+//위 아래가 모두 동일
+<Hello name="react" color="red" isSpecial={true}/>
+<Hello name="react" color="red" isSpecial/>
+```
+
+<br><br><br><br>
