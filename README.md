@@ -362,3 +362,155 @@ export default InputSample;
 
 
 <br><br><br><br>
+
+### 10.Rect에서 여러개의 input 상태 관리하기
+
+저번 예시와 다르게 이번엔 인풋을 여러개 관리해야 하는 상황이다!
+
+이때 처음 드는 생각은 useSate 함수와 onChange 함수를 여러번 정의하고 쓰면 되는거 아닌가 하는 생각인데 그것은 가장 최선의 방법은 아니다!
+
+가장 좋은 방법은 **input에 name이라는 값을 설정하고, 이벤트가 발생했을 때, 그 값을 참조하는 것!!!**
+
+그리고 useState 함수가 이전에는 그냥 문자열을 관리해줬던것과 달리 이번엔 **여러개의 문자열을 가지고 있는 객체 형태를 관리**해줘야함!
+
+<br><br>
+
+
+우선 밑에 리턴하는 JSX 코드부분을 이렇게 고친다.
+
+```JSX
+return (
+  <div>
+    <input placeholder="이름" />
+    <input placeholder="닉네임" /> 
+    <button onClick={onReset}>Reset</button>
+    <div>
+      <b>value: </b>
+      이름 (닉네임)
+    </div>
+  </div>
+);
+```
+
+<br>
+
+위에서 말할 것 같이 여러개의 문자열을 가지고 있는 객체 형태로 관리해야 하기 때문에 아래와 같이 수정한다!
+
+```JSX
+const [inputs, setInputs] = useState({
+  name: '', 	//사용할 문자열들을 저장하는 객체 형태로 관리!
+  nickname: '',
+}); 
+
+const { name, nickname } = inputs; //그리고 나중에 쓰기 편하게 비구조화 할당!
+```
+
+<br>
+
+그리고 input tag에 name 속성을 각각 부여한다  
+(∵ onChange 함수에서 **e.target.name**을 조회하면 사용자가 name input tag를 수정하였는지, nickname input tag를 수정하였는지 알 수 있다!)
+
+그리고 input tag의 onChange 속성에 onChange 함수 설정
+```JSX
+<input name="name" placeholder="이름" onChange={onChange} />
+<input name="nickname" placeholder="닉네임" onChange={onChange} /> 
+```
+
+<br>
+
+그리고 onChange 함수와 onReset 함수를 설정해준다.
+
+```JSX
+const onChange = (e) => { 
+  const { name, value }  = e.target;
+  
+  setInputs({
+    ...inputs,
+    [name]: value,
+  });
+};
+
+const onReset = () => {
+  setInputs({
+    name: '',
+    nickname: '',
+  });
+};
+```
+
+<br><br>
+
+이때 주의해야 할 점은 **`객체 상태를 업데이트 해줄 때`** 에는 `기존의 객체 상태를 복사`해놓은 다음, `그 값에서 특정 값을 덮어씌운 다음`, `그 값을 새로운 상태로 설정`해줘야 함!! 
+
+이렇게 하는 것을 **`불변성을 지킨다`** 고 표현을 함
+
+불변성을 지켜줘야만, 리엑트 컴포넌트에서 상태가 업데이트 되었음을 감지할 수 있고, 이에따라 필요한 렌더링이 발생하게 됨!!
+
+
+그리고 `inputs[name] = value;`  
+만약 setInputs 함수가 아니라 이렇게 값을 바꾼다고 하면, 화면에 변경된 값 적용이 하나도 안됨!!!
+
+<br><br>
+
+### 최종 코드
+
+```JSX
+import React, { useState } from 'react';
+
+function InputSample() {
+
+  const [inputs, setInputs] = useState({
+    name: '',
+    nickname: '',
+  }); 
+
+  const { name, nickname } = inputs; 
+
+  const onChange = (e) => { 
+    const { name, value }  = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const onReset = () => {
+    setInputs({
+      name: '',
+      nickname: '',
+    });
+  };
+
+  return (
+    <div>
+      <input
+        name="name" 
+        placeholder="이름" 
+        onChange={onChange} 
+        value={name}
+      />
+      <input 
+        name="nickname" 
+        placeholder="닉네임" 
+        onChange={onChange} 
+        value={nickname}
+      /> 
+      <button onClick={onReset}>Reset</button>
+      <div>
+        <b>value: </b>
+        {name} ({nickname})
+      </div>
+    </div>
+  )
+}
+export default InputSample;
+```
+
+<br><br>
+
+**∴ 객체의 상태를 업데이트 할때는 ...(스프레드 연산자)를 사용하여 현재 객체 상태를 받아오고, 특정 값을 변경하여서 상태를 업데이트 해줘야 한다!**
+
++그리고 불변성을 지켜줘야만 나중에 컴포넌트 업데이트 성능을 최적화 해줄 수 있다!!
+
+
+<br><br><br><br>
