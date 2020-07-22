@@ -325,3 +325,40 @@ setNumber(pervNumber => pervNumber + 1);
 ```
 
 <br><br><br><br>
+
+### 09.Rect에서 input 상태 관리하기
+
+```JSX
+import React, {useState} from 'react'; //지난 강의에서 배운 useState 함수 import
+
+function InputSample() {
+  const [text, setText] = useState("");
+
+  const onChange = (e) => {
+    // console.log(e.target.value);
+    setText(e.target.value);
+  }
+
+  const onReset = () => {
+    setText("");
+  }
+
+  return (
+    <div>
+      <input onChange={onChange} value={text}/>
+      <button onClick={onReset}>Reset</button>
+      <div>
+        <b>value: </b>
+        {text}
+      </div>
+    </div>
+  );
+}
+
+export default InputSample;
+```
+
+여기서 `<input onChange={onChange} value={text}/>` 이 문장에서 `value={text}` 설정을 안해주면 리셋 버튼 눌러도 input 태그는 변화 없음!
+
+
+<br><br><br><br>
