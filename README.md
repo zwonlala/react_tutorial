@@ -258,3 +258,70 @@ function Hello({ color, name, isSpecial }) {
 ```
 
 <br><br><br><br>
+
+
+### 08. useState를 통한 동적 상태 관리
+
+**`useState`** 는 Hooks 중 하나로 이 함수를 사용하면 함수형 컴포넌트에서도 상태(state) 관리를 할 수 있다.
+
+<br>
+
+우선 맨 위에서 
+
+```JSX
+import React, { useState } from "react";
+```
+
+와 같이  **`useState`** 함수를 import 하고
+
+<br>
+
+컴포넌트 내에서
+```JSX
+const [number, setNumber] = useState(0);
+```
+
+위 문장의 의미는   
+`우리가 number라는 상태를 만들건데, 그 상태의 기본값은 0이고,`  
+`옆에 있는 setNumber는 상태를 바꿔주는 함수`  
+라고 의미하는 것!!
+
+<br>
+
+원래라면 아래와 같이 작성해야 하지만, 배열 비구조화 할당을 통해 위와 같이 쓸 수 있다!!
+
+```JSX
+const numberState = useState(0);
+const number = numberState[0];
+const setNumber = numberState[1];
+```
+**`useState`** 가 호출하면 배열을 반환하게 하는데,   
+첫번째 원소를 number이라는 변수에 추출하고,    
+두번째 원소를 setNumber이라는 변수에 추출하겠단 의미!
+
+<br><br>
+
+
+#### ∴ 정리!
+바뀌는 값을 **`useState`** 함수를 통해 관리 할 수 있고,
+
+관리할 값의 기본값은 **`useState`** 함수의 파라미터로 넣어주면 된다.
+
+그리고 **`useState`** 함수를 배열을 반환하게 되는데,   
+첫번째 원소는 현재 상태,    
+그리고 두번째 원소는 이 상태를 바꾸는 함수이다.
+
+리턴받은 함수에다가 새로운 상태를 넣어 호출하면 상태가 바뀌게 된다.
+
+<br>
+
+**+** 리턴받은 함수에다가 새로운 상태(**값**)을 넣어서 호출하는 것이 아니라, 어떻게 상태를 변화시킬 것인지 설명한 함수(**업데이트 함수**)를 넣어 호출할 수 도 있다.   
+업데이트 함수를 사용하는 것이 리액트 컴포넌트를 최적화 하는데 더 효과적이다! 
+
+```JSX
+//위아래 실행문 동일한 결과를 냄!
+setNumber(number + 1);
+setNumber(pervNumber => pervNumber + 1);
+```
+
+<br><br><br><br>
