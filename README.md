@@ -833,7 +833,45 @@ setUsers([...users, user]);
 setUsers(users.concat(user));
 ```
 
-TODO: 코드에 대한 설명 추가
+**TODO: 코드에 대한 설명 추가**
 
 <br><br><br><br>
 
+
+### 14. 배열 컨트롤3 (배열 항목 삭제)
+
+배열에 항목 삭제를 할 때는 기존의 항목을 유지시키면서(불변성을 지켜주면서) 추가를 해줘야 함.
+
+그래서 삭제할 경우에는 [**`filter 함수`**](https://velog.io/@zwonlala/%EB%B0%B0%EC%97%B4-%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98-filter)를 사용하여 구현한다.
+**`filter 함수`** 는 배열에서 특정 조건을 만족하는 값들만 따로 추출하여 새로운 배열을 만드는 함수 이므로,
+어떤 항목을 삭제하면, 해당 항목만 제외한 배열을 구하여 설정해주면 삭제가 구현된다!
+<br><br>
+
+### filter 함수를 이용하여 배열의 항목을 삭제하는 방법
+
+```JSX
+const onRemove = id => {
+  setUsers(users.filter(user => user.id !== id));
+}
+```
+
+위 함수 설명 : <br>
+
+우선 `onRemove 함수`를 만들고,    
+해당 함수를 `UserList 컴포넌트`에 props로 보내고,    
+`UserList 컴포넌트`에서 다시 `User 컴포넌트`의 props로 보낸다.    
+`User 컴포넌트`에서는 삭제 버튼이 눌리면 자신의 id값을 담아 `onRemove 함수`를 호출한다.
+
+<br>
+
+그럼 위의 `onRemove 함수`에서,   
+`users.filter(...)`을 통해 users 배열 중 조건에 맞는 원소만을 가진 배열을 만들고   
+해당 조건은 `(user => user.id !== id)`  
+즉, user의 id가 입력으로 받은 id 값 *(삭제 버튼이 눌린 User 컴포넌트의 id 값)* 이 아닌 원소들만 리턴하는 것  
+-> 삭제 원소를 제외한 원소들로 이루어진 배열을 get 하고 해당 배열을 `setUsers()`를 통해  Users 배열에 저장!
+<br><br>
+
+
+**TODO: 코드에 대한 설명 추가**
+
+<br><br><br><br>
