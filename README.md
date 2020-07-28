@@ -875,3 +875,75 @@ const onRemove = id => {
 **TODO: 코드에 대한 설명 추가**
 
 <br><br><br><br>
+
+
+### 16. 배열 컨트롤4 (배열 항목 수정)
+
+앞선 예제에서 계정명을 누르면 글자색이 **<span style="color:green">초록색</span>** ⟷ **검은색** 이렇게 토글하는 기능을 구현할 예정
+
+이 기능을 수행하려면 먼저, users 배열에 각 user 별로 `active`라는 boolean 속성을 부여해야 함.
+
+그리고 App.js에서 active 값을 반전 시켜줄 함수 `onToggle`을 구현한다.   
+이때, 불변성을 지키면서 배열의 항목을 업데이트를 해야하는데, **`map 함수`** 를 사용한다.
+
+배열에 있는 특정 아이템을 변경해줄때도  **`map 함수`** 를 쓸 수 있다.   
+해당하는 조건을 만족하면 **update**를 하고, 아니면 그대로 **유지**하는 방법으로 구현!
+
+```JSX
+const onToggle = id => {
+  setUsers(users.map(
+    user => user.id === id
+    ? {...user, active: !user.active }
+    : user
+  ));
+} 
+```
+
+우선 `users.map`을 통해 users에 있는 모든 원소를 가져온 다음,
+
+`user => user.id === id` 각각의 user에 대해, 
+- `user.id === id`이 조건을 만족하면, <br>
+해당 user에 대해  
+`...user` 스프레드 연산자를 통해 현재 user 상태를 받아온 다음,   
+(user 객체를 업데이트 할 것인데, 해당 객체에 대해서도 불변성을 유지해줘야 하기 때문!)  
+
+&nbsp; &nbsp; &nbsp; &nbsp;`active: !user.active` active 속성만 현재값의 반대로 설정!
+
+<br>
+
+- 그리고 `user.id === id` 조건을 만족하지 않는다면 그대로 `user` 리턴.
+
+<br><br>
+
+위 `onToggle` 함수를 userList 컨포넌트와 User 컨포넌트에 전달하고
+
+User 컨포넌트에서 onClick 속성을 사용하여 
+
+```JSX
+onClick={() => onToggle(id)}
+```
+
+이렇게 구현하면 해당 위치를 누를때마다 글자 색이 변경됨!
+
+<br><br>
+
+### 정리!
+
+배열안에 있는 원소를 업데이트 할 때에는 **`map 함수`** 를 사용하여 업데이트를 할 수 있고,
+
+특정 객체를 업데이트 할 때에는 **`...(스프레드 연산자)`** 를 사용하여 기존의 객체 정보를 불러온 다음, 특정 값을 덮어씌우는 방식으로 구현!
+
+이렇게 불변성 처리하는게 지금은 어색할 수 있는데, 나중엔 `immer.js`라고 좀 더 편하게 처리할 수 있는 라이브러리에 대해 알아볼 예정!
+
+<br><br>
+
+## 복습
+- **배열 렌더링하기** : &nbsp;**`map 함수`** 
+- **배열 항목 추가** : &nbsp; &nbsp;**`...(스프레드 연산자)`** or **`concat 함수`**
+- **배열 항목 삭제** : &nbsp; &nbsp;**`filter 함수`**
+- **배열 항목 수정** : &nbsp; &nbsp;**`map 함수`** 
+
+<br><br>
+
+**TODO: 코드에 대한 설명 추가**
+<br><br><br><br>
