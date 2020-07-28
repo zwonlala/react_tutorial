@@ -601,3 +601,145 @@ const onReset = () => {
 
 
 <br><br><br><br>
+
+
+
+
+### 12. 배열 컨트롤1 (배열 렌더링)
+
+어떠한 정보가 객체 형태로 담겨져 있는 배열을 화면에 뿌려줘야할 땐 어캐 해야할까..?
+
+이러한 정보가 있다고 할때, 
+```JSX
+const users = [
+  {
+    id: 1,
+    username: 'jiwon',
+    email: 's26788761@naver.com'
+  },
+  {
+    id: 2,
+    username: 'unknown',
+    email: 'unknown@gmail.com'
+  },
+  {
+    id: 3,
+    username: 'stella',
+    email: 'jang@naver.com'
+  }
+```
+
+<br><br>
+
+우선 제일 무식하고, 비효율적으로 작성해 보겠다.
+
+```JSX
+return (
+  <div>
+    <div>
+      <b>{users[0].username}</b> <span>{users[0].email}</span>
+    </div>
+    <div>
+      <b>{users[1].username}</b> <span>{users[1].email}</span>
+    </div>
+    <div>
+      <b>{users[2].username}</b> <span>{users[2].email}</span>
+    </div>
+  </div>
+);
+```
+
+이렇게 작성을 하면, 각 user를 출력하는 부분이 반복된다.
+
+<br><br>
+
+이 반복되는 부분을 수정하기 위해 새로운 User 컴포넌트를 만들어 반복되는 부분을 넣으면
+
+```JSX
+function User( { user }) {
+  return (
+    <div>
+      <b>{user.username}</b> <span>{user.email}</span>
+    </div>
+  );
+}
+```
+이렇게 새로운 User 컴포넌트가 만들어지고,
+
+```JSX
+return (
+  <div>
+    <User user={users[0]} />
+    <User user={users[1]} />
+    <User user={users[2]} />
+  </div>
+);
+```
+UserList 컴포넌트를 이렇게 수정해줄 수 있다!
+
+<br><br>
+
+이렇게 하면 만약 배열의 크기가 고정적이라면 문제가 없지만, user의 수가 동적으로 변할 때, 대응을 해줄 수 없다.
+
+그럴땐, JS 배열의 내장함수 **`map`** 을 사용한다!!!
+
+**`map`** 함수를 이용해서 객체 배열 형태로 있는 배열을, 컴포넌트 엘리먼트 형태의 배열로 바꿔주면 된다!
+
+```JSX
+return (
+  <div>
+    {
+      users.map( 
+        user => <User user={user}/>
+      )
+    }
+  </div>
+)
+```
+
+이렇게 하면 기존의 코드와 동일하게 화면에 보이고, 또 배열의 크기가 변하더라도 문제없이 화면에 뿌려줄 수 있다.
+
+<br><br>
+
+**`map`** 함수를 사용할때, 위에서 처럼만 쓰면 콘솔창에 워닝이 뜨는데, 
+
+![스크린샷 2020-07-28 오후 3 26 03](https://user-images.githubusercontent.com/13375734/88627113-bff85580-d0e6-11ea-8322-fdac3c672650.jpg)
+
+
+`각 child(User 컴포넌트)는 key라는 prop이 있어야 한다`고 나온다.
+
+이 **key** 라는 prop은 각 원소들마다 고유값을 줌으로서 원소들이 추가, 삭제, 업데이트 될때, 어떤 원소가 변형되었는지 판단할 수 있게 해주는 것이다! 그 결과 리렌더링 성능을 최적화 할 수 있다.
+
+지금 같은 경우에는 id 라는 데이터로 각 User를 구분할 수 있으니,
+
+```JSX
+users.map(
+  user => <User user={user} key={user.id}/>
+)
+```
+
+다음과 같이 `user.id` 값을 **key** prop으로 넣어주어야 한다!
+
+<br>
+
+**+** 또 만약 `user.id` 같이 각 배열 원소를 구분할 수 있는 데이터가 없다면,
+
+```JSX
+users.map(
+  (user, index) => <User user={user} key={index}/>
+);
+```
+위와 같이 **`map`** 함수의 콜백함수의 두번째 파라미터인 index 변수를 사용하여 **key** prop을 설정해줄 수 있고, 워닝을 피할 수 있다!
+
+하지만 위와 같은 경우에서는 위에서 언급한 리렌더링 성능을 개선하진 않고, 워닝만 피하는 코드이니 꼭! 꼭! 꼭! id 같이 원소를 구분할 수 있는 정보가 있으면 해당 값을 **key** prop에 적용해야 한다!
+
+<br><br>
+
+### 정리!!
+
+- 배열을 렌더링 할 때는 **key**를 설정해 주어야 효율적으로 렌더링 할 수 있다.
+
+- 고유값이 없는 경우에는 **key** 값 위치에 index를 넣어줄 수 있지만, 비효율 적이다.
+(데이터가 몇개 없거나, 업데이트가 자주 일어나지 않는다면 ㄱㅊ..?)
+
+<br><br><br><br>
