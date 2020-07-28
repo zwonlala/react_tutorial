@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 function InputSample() {
     const [inputs, setInputs] = useState({
@@ -7,6 +7,8 @@ function InputSample() {
     }); {/*사용할 문자열들을 저장하는 객체 형태로 관리!*/}
 
     const { name, nickname } = inputs; {/*나중에 쓰기 편하게 비구조화 할당!*/}
+
+    const nameInput = useRef();
 
     const onChange = (e) => { 
         // console.log(`${e.target.name}의 변한 값은 ${e.target.value}`); {/*어떤 input에서 값이 어캐 바뀌었는지 콘솔로그로 볼 수 있음 */}
@@ -37,6 +39,7 @@ function InputSample() {
             name: '',
             nickname: '',
         });
+        nameInput.current.focus();
     };
 
     return (
@@ -46,6 +49,7 @@ function InputSample() {
                 placeholder="이름" 
                 onChange={onChange} 
                 value={name}
+                ref={nameInput}
             />
             <input 
                 name="nickname" 

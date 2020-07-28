@@ -512,5 +512,92 @@ export default InputSample;
 
 +그리고 불변성을 지켜줘야만 나중에 컴포넌트 업데이트 성능을 최적화 해줄 수 있다!!
 
+<br><br><br><br>
+
+
+
+
+
+### 11. useRef로 특정 DOM 선택하기
+
+
+HTML과 JS를 사용할때, DOM에 접근하거나 선택할 일이 있으면, [`getElementById`](https://developer.mozilla.org/ko/docs/Web/API/Document/getElementById)나 [`querySelector`](https://developer.mozilla.org/ko/docs/Web/API/Document/querySelector) 등의 DOM selector 함수를 사용함.
+
+React를 사용하는 경우에서도 특정 DOM에 접근할 일이 있다.   
+
+- 특정 엘리먼트의 크기/위치를 알아낼 때, 
+- 스크롤 바의 위치를 가져오거나 설정할 때, 
+- focus를 설정해야할 때, 
+- Video.js(비디오 관련 라이브러리)등 HTML5 비디오 관련 라이브러리를 사용할 때, 
+- D3, Chart.js와 같은 그래프 관련 라이브러리를 사용하게 될 때    
+-> 특정 DOM에 라이브러리 설정해야 함
+
+<br>
+
+이럴때, React에서는 `ref`라는 것을 사용하고,   
+함수형 컴포넌트에서는 **`useRef`** 라는 훅 함수를 사용한다.   
+클래스형 컴포넌트에서는 `React.createRef()`라는 함수를 사용.    
+여기선 함수형 컴포넌트일때 사용하는 **`useRef`** 함수만 알아봄!   
+
+<br>
+
+우리가 이전에 만든 InputSample 컴포넌트에서는 초기화 버튼을 누르고 나면, 포커스가 계속 '초기화' 버튼에 남아있음.    
+이 부분을 '초기화' 버튼을 누르고 나서 '이름' input 태그로 포커스가 이동하게 변경해보자.
+
+<br>
+
+이렇게 바꾸기 위해서는 React 자체적인 기술로는 뭔가 할 수 있는게 없어, 직접 DOM에 접근을 해야 한다.
+
+DOM에 직접 접근하기 위해서는
+
+먼저 **`useRef`** 함수를 불러옴.
+
+```JSX
+import React, { useState, useRef } from 'react'; //새로 'useRef' 함수 불러옴
+```
+
+그리고 코드 상단에
+
+```JSX
+const nameInput = useRef(); 
+```
+라고 nameInput 객체를 선언.   
+그리고 만들어진 nameInput 객체를 우리가 선택해주고 싶은 DOM에 설정해준다.
+
+```JSX
+<input 
+  name="name" 
+  placeholder="이름" 
+  onChange={onChange} 
+  value={name}
+  ref={nameInput} //이렇게 설정!
+/>
+```
+
+여기까지 하고 나면 우리가 원하는 DOM에 직접 접근할 수 있는데, 
+
+
+```JSX
+const onReset = () => {
+  setInputs({
+    name: '',
+    nickname: '',
+  });
+
+  nameInput.current.focus(); //이렇게 접근할 수 있다.
+};
+```
+위와 같이 쓸 수 있다.  
+ 
+`nameInput.current.focus();` 이 문장을 해석해보면,   
+
+`nameInput.current` 까지가 해당 DOM을 가리키게 되고,    
+
+그 다음 DOM API 중 하나인 `focus()` 함수를 사용하여 우리가 원하는 기능을 구현할 수 있다.
+
+<br><br>
+
+**+** **`useRef`** 함수의 기능으로 이렇게 DOM에 접근하는 것 말고도, 렌더링과 관련이 없는 변수를 관리할 수 있는데, 이 기능은 다음에 알아봄! 😀 
+
 
 <br><br><br><br>
