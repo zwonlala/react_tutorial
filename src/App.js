@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import UserList from './UserList';
+import CreateUser from './CreateUser';
 // import Hello from './Hello';
 // import Wrapper from './Wrapper';
 // import Counter from './Counter';
@@ -8,7 +9,21 @@ import UserList from './UserList';
 
 function App() {
 
-  const users = [
+  const [inputs, setInputs] = useState( {
+    name: "",
+    email: ""
+  });
+  const { username, email }  = inputs;
+
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name] : value
+    })
+  }
+
+  const [users, setUsers] = useState([
     {
       id: 1,
       username: 'jiwon',
@@ -24,20 +39,38 @@ function App() {
       username: 'stella',
       email: 'jang@naver.com'
     }
-  ];
+  ]);
 
-  const nextId = useRef(4); //초기값을 4로 설정
+  const nextId = useRef(4);
 
-  const onCreate = () => { //새로운 원소를 추가하는 함수
-   
-    console.log(nextId.current);
+  const onCreate = () => { 
+    const user = {
+      id: nextId.current,
+      username,
+      email
+    };
+    // setUsers([...users, user]);
+    setUsers(users.concat(user)); //위 문장과 동일한 문장!
+
+    setInputs({
+      username:"",
+      email:""
+    });
     nextId.current += 1; //기존 값에 1 추가
   }
 
 
 
   return (
-    <UserList users={users}/>
+    <>
+      <CreateUser 
+        username={username} 
+        email={email} 
+        onChange={onChange} 
+        onCreate={onCreate} 
+      />
+      <UserList users={users}/>
+    </>
   );
 }
 

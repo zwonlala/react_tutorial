@@ -801,3 +801,39 @@ const onCreate = () => { //새로운 원소를 추가하는 함수
 포인트!는 **`useRef`** 함수를 사용하여 컴포넌트 안의 변수를 만들면, 컴포넌트에 값을 저장할 수 있고, 값이 변경된다 하더라도 컴포넌트가 리랜더링 되진 않는다.
 
 <br><br><br><br>
+
+
+
+
+### 14. 배열 컨트롤2 (배열 항목 추가)
+
+배열에 항목 추가를 할 때는 기존의 항목을 유지시키면서(불변성을 지켜주면서) 추가를 해줘야 함.
+
+그래서 [push](https://velog.io/@zwonlala/%EB%B0%B0%EC%97%B4-%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98-shift-pop-unshift-push), [splice](https://velog.io/@zwonlala/%EB%B0%B0%EC%97%B4-%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98-spliceslice), [sort](http://dudmy.net/javascript/2015/11/16/javascript-sort/)등의 함수를 사용하면 안된다.
+
+불변성을 지키며 배열에 새 항목을 추가하는 방법에는 [spread 연사자](https://velog.io/@chlwlsdn0828/Js-Spread-%EC%97%B0%EC%82%B0%EC%9E%90-Rest-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0)를 이용하는 법, [concat 함수](https://velog.io/@zwonlala/%EB%B0%B0%EC%97%B4-%EB%82%B4%EC%9E%A5%ED%95%A8%EC%88%98-concat)를 사용하는 법 이렇게 2가지가 있다.
+
+<br><br>
+
+### 1. spread 연산자를 이용하여 배열에 새 항목을 추가하는 방법
+
+```JSX
+//users는 user 객체 정보가 저장되어 있는 배열
+//user는 새로 입력된 정보가 담긴 객체
+setUsers([...users, user]);
+```
+
+<br><br>
+
+### 2. concat 연산자를 이용하여 배열에 새 항목을 추가하는 방법
+
+```JSX
+//users는 user 객체 정보가 저장되어 있는 배열
+//user는 새로 입력된 정보가 담긴 객체
+setUsers(users.concat(user));
+```
+
+TODO: 코드에 대한 설명 추가
+
+<br><br><br><br>
+
