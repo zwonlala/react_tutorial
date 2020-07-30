@@ -1,26 +1,46 @@
 import React, { useState } from 'react';
 
 function InputSample() {
-    const [input, setInput] = useState('');
+    const [input, setInput] = useState({
+        name: '',
+        email: ''
+    });
+    const { name, email } = input;
 
     const onChange = e => {
-        // console.log(e.target);
-        // console.log(`${e.target}'s change : ${e.target.value}`);
-        const { value } = e.target;
-        setInput(value);
+        const { name, value } = e.target;
+        setInput({
+            ...input,
+            [name]: value
+        });
     }
 
     const onReset = () => {
-        setInput('');
-    }
+        setInput({
+            name: '',
+            email: ''
+        });    
+    };
 
     return (
         <div>
-            <input onChange = { onChange } value={input}/> {/*input에 value 설정하는 거 까먹음 */ }
-            <button onClick = { onReset }>초기화</button> { /*초기화 버튼 까먹음 */ }
+            <input 
+                name='name' 
+                placeholder='이름' 
+                onChange = { onChange } 
+                value = { name } //input 태그에 value 설정하는 거 까먹음 
+            /> 
+            <input 
+                name='email' 
+                placeholder='이메일'
+                onChange={ onChange } 
+                value={ email } //input 태그에 value 설정하는 거 까먹음
+            /> 
+
+            <button onClick ={ onReset }>초기화</button> 
             <div>
-                <b>입력: </b>
-                {input}
+                <b> { name } :</b>
+                ({ email })
             </div>  
         </div>
     )
