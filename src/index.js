@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Counter from './jiwon/Counter';
+import InputSample from './jiwon/InputSample';
 
 ReactDOM.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
-  <Counter />,
+  // <Counter />,
+  <InputSample/>,
   document.getElementById('root')
 );
 
