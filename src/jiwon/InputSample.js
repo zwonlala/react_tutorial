@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 function InputSample() {
     const [input, setInput] = useState({
@@ -6,6 +6,8 @@ function InputSample() {
         email: ''
     });
     const { name, email } = input;
+
+    const useRefVar = useRef(); //변수명 기억안남
 
     const onChange = e => {
         const { name, value } = e.target;
@@ -19,7 +21,8 @@ function InputSample() {
         setInput({
             name: '',
             email: ''
-        });    
+        });
+        useRefVar.current.focus(); //focus 함수 기억 안남  
     };
 
     return (
@@ -29,6 +32,7 @@ function InputSample() {
                 placeholder='이름' 
                 onChange = { onChange } 
                 value = { name } //input 태그에 value 설정하는 거 까먹음 
+                ref = {useRefVar}
             /> 
             <input 
                 name='email' 
