@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-function User( { user } ) { //props 받을때 {} 중괄호로 묶어야 하는거 까먹음
+function User( { user } ) { 
     const { name, email } = user;
     return (
         <div>
@@ -28,12 +28,19 @@ function UserList() {
             email: 'bbbbb@bbbbbb.com'
         },
     ]
+    
+    const useRefVar = useRef(4);
+
+    const onCreate = () => {
+        console.log(`이번에 생성된 원소의 id는 ${useRefVar.current} 입니다`);
+        useRefVar.current += 1;
+    }
     return (
         <>
             {users.map( 
-                user => <User user={user} key={user.id}/> //map 함수 사용하고 key 설정하는거 까먹음
-                // (user, index) => <User user={user} key={index}/>
+                user => <User user={user} key={user.id}/>   
             )}
+            <button onClick={onCreate}>생성</button>
         </>
     );
 }
