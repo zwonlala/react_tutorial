@@ -10,37 +10,14 @@ function User( { user } ) {
 }
 
 
-function UserList() {
-    const users = [
-        {
-            id: 1,
-            name: 'asdf',
-            email: 'asdf@asdf.com'
-        },
-        {
-            id: 2,
-            name: 'aaaaaa',
-            email: 'aaaaaa@aaaaa.com'
-        },
-        {
-            id: 3,
-            name: 'bbbbbb',
-            email: 'bbbbb@bbbbbb.com'
-        },
-    ]
-    
-    const useRefVar = useRef(4);
-
-    const onCreate = () => {
-        console.log(`이번에 생성된 원소의 id는 ${useRefVar.current} 입니다`);
-        useRefVar.current += 1;
-    }
+function UserList( { users }) { 
+    // console.log("송지원");
+    // console.log(users);
     return (
         <>
-            {users.map( 
+            {users.map(  //Error 발생 : "TypeError: users.map is not a function"
                 user => <User user={user} key={user.id}/>   
             )}
-            <button onClick={onCreate}>생성</button>
         </>
     );
 }
