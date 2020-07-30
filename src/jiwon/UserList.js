@@ -1,22 +1,21 @@
 import React, { useRef } from 'react';
 
-function User( { user } ) { 
+function User( { user, onRemove } ) { 
     const { name, email } = user;
     return (
         <div>
             <b>{name}</b> {email}
+            <button onClick={() => onRemove(user.id)}>삭제</button>
         </div>
     );
 }
 
 
-function UserList( { users }) { 
-    // console.log("송지원");
-    // console.log(users);
+function UserList( { users, onRemove }) { 
     return (
         <>
-            {users.map(  //Error 발생 : "TypeError: users.map is not a function"
-                user => <User user={user} key={user.id}/>   
+            { users.map(  
+                user => <User user={user} key={user.id} onRemove={onRemove}/>   
             )}
         </>
     );
