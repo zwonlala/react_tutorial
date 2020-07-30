@@ -5,13 +5,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Counter from './jiwon/Counter';
 import InputSample from './jiwon/InputSample';
+import UserList from './jiwon/UserList';
 
 ReactDOM.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
   // <Counter />,
-  <InputSample/>,
+  // <InputSample/>,
+  <UserList/>,
   document.getElementById('root')
 );
 
