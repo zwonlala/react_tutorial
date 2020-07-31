@@ -1,22 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Counter2 from './jiwon/Counter2';
+// import Counter2 from './jiwon/Counter2';
 import InputSample from './jiwon/InputSample';
 import UserList from './jiwon/UserList';
-import App from './jiwon/App';
+// import App from './jiwon/App';
 
 ReactDOM.render(
   // <React.StrictMode>
-  //   <App />
+  <App /> ,
   // </React.StrictMode>,
   // <Counter />,
   // <InputSample/>,
   // <UserList/>,
-  // <App />, //복구!
-  <Counter2 />,
+  // <App />, 
 
   document.getElementById('root')
 );
