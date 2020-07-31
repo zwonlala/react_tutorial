@@ -12,8 +12,8 @@ function User( { user, onRemove, onToggle }) {
         // //- setInterval, setTimeout
 
         //deps를 [user]로 설정한 이후
-        console.log('user 값이 설정됨');
-        console.log(user);
+        // console.log('user 값이 설정됨');
+        // console.log(user);
 
         //컴포넌트가 삭제될 때 어떤 작업을 해주고 싶으면, useEffect 함수 내에서 return 을 사용하여 함수를 리턴하면,
         //컴포넌트가 삭제될 때, 해당 함수가 실행됨!
@@ -25,8 +25,8 @@ function User( { user, onRemove, onToggle }) {
             // //- D3, Video.js 등 라이브러리 인스턴스 제거
 
             //deps를 [user]로 설정한 이후
-            console.log('user 값이 바뀌기 전');
-            console.log(user);
+            // console.log('user 값이 바뀌기 전');
+            // console.log(user);
 
         }
 
