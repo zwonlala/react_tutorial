@@ -57,26 +57,30 @@ function App() {
       email
     };
     // setUsers([...users, user]);
-    setUsers(users.concat(user)); //위 문장과 동일한 문장!
+    setUsers(users => users.concat(user));
+    //deps 배열에서 users 빼기위해 콜백함수의 파라미터로 users 등록
 
     setInputs({
       username:"",
       email:""
     });
-    nextId.current += 1; //기존 값에 1 추가
-  }, [username, email, users]); //여기에 왜 users 추가??
+    nextId.current += 1; 
+  }, [username, email, /*users*/]); //users 제거
 
   const onRemove = useCallback(id => {
-    setUsers(users.filter(user => user.id !== id));
-  }, [users]);
+    setUsers(users => users.filter(user => user.id !== id));
+    //deps 배열에서 users 빼기위해 콜백함수의 파라미터로 users 등록
+
+  }, [/*users*/]); //users 제거
 
   const onToggle = useCallback(id => {
-    setUsers(users.map(
+    //deps 배열에서 users 빼기위해 콜백함수의 파라미터로 users 등록
+    setUsers(users => users.map(
         user => user.id === id
         ? {...user, active: !user.active } 
         : user
     ));
-  }, [users]);
+  }, [/*users*/]); //users 제거
 
   const count = useMemo(() => countActiveUsers(users), [users]);
   return (
