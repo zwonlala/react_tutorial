@@ -6,11 +6,13 @@ import * as serviceWorker from './serviceWorker';
 // import Counter2 from './jiwon/Counter2';
 import InputSample from './jiwon/InputSample';
 import UserList from './jiwon/UserList';
+import Counter from './Counter';
 // import App from './jiwon/App';
 
 ReactDOM.render(
   // <React.StrictMode>
-  <App /> ,
+  // <App /> ,
+  <Counter />,
   // </React.StrictMode>,
   // <Counter />,
   // <InputSample/>,
