@@ -63,4 +63,8 @@ function UserList({ users, onRemove, onToggle }) {
     )
 }
 
-export default React.memo(UserList);
+export default React.memo(
+    UserList, 
+    (prevProps, nextProps) => prevProps.users === nextProps.users
+    //prevProps.users 와 nextProps.users 가 같다면 리렌더링 하지 않겠다!!!
+);
