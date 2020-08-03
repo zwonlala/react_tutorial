@@ -11,8 +11,8 @@ import Counter from './Counter';
 
 ReactDOM.render(
   // <React.StrictMode>
-  // <App /> ,
-  <Counter />,
+  <App /> ,
+  // <Counter />,
   // </React.StrictMode>,
   // <Counter />,
   // <InputSample/>,
