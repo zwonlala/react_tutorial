@@ -127,14 +127,93 @@ const onCreate = useCallback(() => {
   });
   nextId.current += 1;
   reset(); //여기!
-}, [username, email]);
+}, [username, email, reset]);
 ```
 
 <br><br>
 
 #### **+** 숙제! 구현한 useInput 함수를 useState 대신 useReducer 사용하여 구현하기!
 
+<details>
+    <summary><b>내가 구현한 코드</b></summary>
 
+```javascript
+import { useReducer, useCallback } from 'react';
+
+function reducer(state, action) {
+  switch(action.type) {
+    case 'CHANGE':
+      const { name, value } = action;
+      return {
+        ...state,
+        [name] : value
+      };
+
+    case 'RESET':
+      // console.log(action.initialState);
+      return  action.initialState;
+
+    default :
+      throw new Error('Unhandled action');
+  }
+}
+
+function useInputs2 (initialState) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    dispatch({
+      type : 'CHANGE',
+      name,
+      value
+    });
+  }, [])
+
+  const reset = useCallback(() => dispatch({type:'RESET', initialState}), []);
+
+  return [state, onChange, reset];
+}
+export default useInputs2;
+```
+</details>
+<br>
+<details>
+    <summary><b>velopert님이 구현한 코드</b></summary>
+
+```javascript
+import { useReducer, useCallback } from 'react';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CHANGE':
+      return {
+        ...state,
+        [action.name]: action.value
+      };
+    case 'RESET':
+      return Object.keys(state).reduce((acc, current) => {
+        acc[current] = '';
+        return acc;
+      }, {});
+    default:
+      return state;
+  }
+}
+
+function useInputs(initialForm) {
+  const [form, dispatch] = useReducer(reducer, initialForm);
+  // change
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    dispatch({ type: 'CHANGE', name, value });
+  }, []);
+  const reset = useCallback(() => dispatch({ type: 'RESET' }), []);
+  return [form, onChange, reset];
+}
+
+export default useInputs;
+```
+</details>
 
 <br><br><br><br>
-

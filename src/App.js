@@ -5,7 +5,9 @@ import CreateUser from './CreateUser';
 // import Wrapper from './Wrapper';
 // import Counter from './Counter';
 // import InputSample from './InputSample';
-import useInputs from './useInputs';
+// import useInputs from './useInputs';
+import useInputs2 from './useInputs2';
+
 
 function countActiveUsers(users) {
   console.log("활성 사용자 수를 세는 중입니다...");
@@ -79,11 +81,11 @@ function reducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [form, onChange, reset] = useInputs({
+  const [state2, onChange, reset] = useInputs2({
     username: '',
     email: ''
   });
-  const { username, email } = form;
+  const { username, email } = state2;
   const nextId = useRef(4);
   const { users } = state;
   // const { username, email } = state.inputs;
