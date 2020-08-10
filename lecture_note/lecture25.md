@@ -121,8 +121,137 @@ dispatch 같은 함수가 없기 때문에
 
 <br><br><br><br>
 
+
 **+** **숙제**
+- CreateUser 에게는 아무 props 도 전달하지 않기
+- CreateUser 컴포넌트 내부에서 이전에 만든 커스텀 Hook인 useInputs 를 사용
+- useRef 를 사용한 nextId 값을 CreateUser 에서 관리
+
+<br>
+
+<details>
+<summary><b>내 코드</b></summary>
+
+```javascript
+import React, { useContext, useRef } from 'react';
+import { UserDispatch } from './App';
+import useInputs from './useInputs';
+
+function CreateUser() {
+  const [form, onChange, reset] = useInputs({
+    username: '',
+    email: ''
+  });
+  const { username, email } = form;
+  const dispatch = useContext(UserDispatch);
+  const nextId = useRef(4);
+  
+  return (
+    <div>
+      <input
+        name="username" 
+        placeholder="계정명" 
+        onChange={onChange} 
+        value={username} 
+      />
+      <input
+        name="email" 
+        placeholder="이메일" 
+        onChange={onChange} 
+        value={email} 
+      />
+      <button onClick={() => {
+          dispatch({
+            type: 'CREATE_USER',
+            user: {...form, id: nextId.current}
+          })
+          nextId.current += 1;
+          reset();
+        }
+      }>등록</button>
+    </div>
+  )
+};
+
+export default React.memo(CreateUser);
+```
+</details>
+
+<br>
+
+<details>
+<summary><b>벨로퍼트님 코드</b></summary>
+
+```javascript
+import React, { useRef, useContext } from 'react';
+import useInputs from './hooks/useInputs';
+import { UserDispatch } from './App';
+
+const CreateUser = () => {
+  const [{ username, email }, onChange, reset] = useInputs({
+    username: '',
+    email: ''
+  });
+
+  const nextId = useRef(4);
+  const dispatch = useContext(UserDispatch);
+
+  const onCreate = () => {
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        username,
+        email
+      }
+    });
+    reset();
+    nextId.current += 1;
+  };
+
+  return (
+    <div>
+      <input
+        name="username"
+        placeholder="계정명"
+        onChange={onChange}
+        value={username}
+      />
+      <input
+        name="email"
+        placeholder="이메일"
+        onChange={onChange}
+        value={email}
+      />
+      <button onClick={onCreate}>등록</button>
+    </div>
+  );
+};
+
+export default React.memo(CreateUser);
+```
+</details>
+
+<br><br>
+
+- onCreate가 수행해야할 기능이 여러개 일때는 따로 함수로 뽑아서    
+`<button onClick={onCreate}>등록</button>`  
+이렇게 등록해주는게 깔끔할 것 같음!
+
+
+- `import useInputs from './useInputs';` 할 때    
+`import { useInputs } ... `이렇게 해서  
+   **Attempted import error**가 남<br>
+[해당 스택 오버 플로](https://stackoverflow.com/questions/53328408/receiving-attempted-import-error-in-react-app)
+
+- `const dispatch = useContext(UserDispatch);`  
+위 문장에서 useContext 훅이 아닌 useState 훅을 사용하여   
+**'dispatch' is not a function** 라고 출력되는 **type Error** 발생...😅
+
+- 등록 버튼을 누르고 다시 리셋해줘야 하는 것을 깜빡함
+
 
 <br><br><br><br>
+
 
 
