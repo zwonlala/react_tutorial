@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import InputSample from './jiwon/InputSample';
 import UserList from './jiwon/UserList';
 import Counter from './Counter';
-import ContextSample from './ContextSample';
+// import ContextSample from './ContextSample';
 // import App from './jiwon/App';
 
 ReactDOM.render(
@@ -17,8 +17,8 @@ ReactDOM.render(
   // <Counter />,
   // <InputSample/>,
   // <UserList/>,
-  // <App />, 
-  <ContextSample />,
+  <App />, 
+  // <ContextSample />,
 
   document.getElementById('root')
 );

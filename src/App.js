@@ -1,4 +1,4 @@
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+import React, { useRef, useReducer, useMemo, useCallback, createContext } from 'react';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 // import Hello from './Hello';
@@ -79,6 +79,8 @@ function reducer(state, action) {
   }
 }
 
+export const UserDispatch = createContext(null);
+
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [state2, onChange, reset] = useInputs2({
@@ -112,23 +114,9 @@ function App() {
     reset();
   }, [username, email]);
 
-  const onToggle = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    })
-  }, []);
-
-  const onRemove = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    })
-  }, []);
-  
   const count = useMemo(() => countActiveUsers(users), [users]);
   return (
-    <>
+    <UserDispatch.Provider value={dispatch}>
       <CreateUser 
         username={username}
         email={email}
@@ -137,11 +125,9 @@ function App() {
       />
       <UserList 
         users={users}
-        onToggle={onToggle}
-        onRemove={onRemove}
        />
       <div>활성 사용자 수는 : {count}</div>
-    </>
+    </ UserDispatch.Provider>
   );
 }
 
