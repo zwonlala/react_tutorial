@@ -1,4 +1,10 @@
-import React, { useRef, useReducer, useMemo, useCallback, createContext } from 'react';
+import React, {
+  useRef,
+  useReducer,
+  useMemo,
+  useCallback,
+  createContext,
+} from 'react';
 import produce from 'immer';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
@@ -9,10 +15,9 @@ import CreateUser from './CreateUser';
 // import useInputs from './useInputs';
 import useInputs2 from './useInputs2';
 
-
 function countActiveUsers(users) {
-  console.log("활성 사용자 수를 세는 중입니다...");
-  return users.filter(user => user.active).length;
+  console.log('활성 사용자 수를 세는 중입니다...');
+  return users.filter((user) => user.active).length;
 }
 
 const initialState = {
@@ -38,12 +43,12 @@ const initialState = {
       username: 'stella',
       email: 'jang@naver.com',
       active: false,
-    }
-  ]
+    },
+  ],
 };
 
 function reducer(state, action) {
-  switch(action.type) {
+  switch (action.type) {
     // case 'CHANGE_INPUT':
     //   return {
     //     ...state,
@@ -54,40 +59,40 @@ function reducer(state, action) {
     //   };
 
     case 'CREATE_USER':
-      return produce(state, draft => {
+      return produce(state, (draft) => {
         draft.users.push(actiond.user);
-      })
-      // return {
-      //   inputs: initialState.inputs,
-      //   users: state.users.concat(action.user)
-      // };
+      });
+    // return {
+    //   inputs: initialState.inputs,
+    //   users: state.users.concat(action.user)
+    // };
 
     case 'TOGGLE_USER':
-      return produce(state, draft => {
-        const user = draft.users.find(user => user.id === action.id)
+      return produce(state, (draft) => {
+        const user = draft.users.find((user) => user.id === action.id);
         user.active = !user.active;
-      })
-      // return {
-      //   ...state,
-      //   users: state.users.map( user => 
-      //       user.id === action.id
-      //       ? {...user, active: !user.active}
-      //       : user
-      //   )
-      // };
+      });
+    // return {
+    //   ...state,
+    //   users: state.users.map( user =>
+    //       user.id === action.id
+    //       ? {...user, active: !user.active}
+    //       : user
+    //   )
+    // };
 
     case 'REMOVE_USER':
-      return produce(state, draft => {
-        const index = draft.users.findIndex(user => user.id === action.id);
+      return produce(state, (draft) => {
+        const index = draft.users.findIndex((user) => user.id === action.id);
         draft.users.splice(index, 1);
-      })
-      // return {
-      //   ...state,
-      //   users: state.users.filter(user => user.id !== action.id)
-      // };
+      });
+    // return {
+    //   ...state,
+    //   users: state.users.filter(user => user.id !== action.id)
+    // };
 
-    default :
-     throw new Error('Unhandled action type');
+    default:
+      throw new Error('Unhandled action type');
   }
 }
 
@@ -129,17 +134,15 @@ function App() {
   const count = useMemo(() => countActiveUsers(users), [users]);
   return (
     <UserDispatch.Provider value={dispatch}>
-      <CreateUser 
-        // username={username}
-        // email={email}
-        // onChange={onChange}
-        // onCreate={onCreate}
+      <CreateUser
+      // username={username}
+      // email={email}
+      // onChange={onChange}
+      // onCreate={onCreate}
       />
-      <UserList 
-        users={users}
-       />
+      <UserList users={users} />
       <div>활성 사용자 수는 : {count}</div>
-    </ UserDispatch.Provider>
+    </UserDispatch.Provider>
   );
 }
 
